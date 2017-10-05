@@ -15,15 +15,15 @@ if (isset($_POST['upload'])) {
 
     // Прогоняем файл по if'ам, если не подходит - выкидываем ошибку
     if (pathinfo($_FILES['testfile']['name'], PATHINFO_EXTENSION) !== 'json') {
-        $result = "<p class='error'>Можно загружать файлы только с расширением json</p>";
+        $result = "<p>Можно загружать файлы только с расширением json</p>";
     } else if ($_FILES["testfile"]["size"] > 1024 * 1024 * 1024) {
-        $result = "<p class='error'>Размер файла превышает три мегабайта</p>";
+        $result = "<p>Размер файла превышает три мегабайта</p>";
     } else if (in_array($uploadfile, $allFiles, true)) {
-        $result = "<p class='error'>Файл с таким именем уже существует.</p>";
+        $result = "<p>Файл с таким именем уже существует.</p>";
     } else if (move_uploaded_file($_FILES['testfile']['tmp_name'], $uploadfile)) {
-        $result = "<p class='success'>Файл корректен и успешно загружен на сервер</p>";
+        $result = "<p>Файл корректен и успешно загружен на сервер</p>";
     } else {
-        $result = "<p class='error'>Произошла ошибка</p>";
+        $result = "<p>Произошла ошибка</p>";
     }
 }
 
@@ -38,15 +38,8 @@ if (isset($_POST['upload'])) {
 <?php if (isset($_POST['upload'])): ?>
     <a href="<?php $_SERVER['HTTP_REFERER'] ?>"><div>< Назад</div></a>
     <?php echo $result; ?>
-    <h1>Служебная информация:</h1>
-    <pre>
-        <?php print_r($allFiles); ?>
-        <hr>
-        <?php print_r($_FILES); ?>
-    </pre>
 <?php endif; ?>
 
-<!-- Пока файл или форма теста не была отправлена, выводить форму загрузки и форму создания теста -->
 
 <?php if (!isset($_POST['create']) && !isset($_POST['upload'])): ?>
 
