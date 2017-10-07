@@ -1,5 +1,7 @@
 <?php
-
+function isJSON($string) {
+    return ((is_string($string) && (is_object(json_decode($string)) || is_array(json_decode($string))))) ? true : false;
+}
 // Если был получен POST-запрос с файлом, то проверяем, подходит ли он
 if (isset($_POST['upload'])) {
 
@@ -25,7 +27,11 @@ if (isset($_POST['upload'])) {
     } else {
         $result = "<p>Произошла ошибка</p>";
     }
+
+    if(isJSON($uploadfile)) echo "Valid!";
 }
+
+
 
 ?>
 <!doctype html>

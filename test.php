@@ -12,6 +12,7 @@ $number = $_GET['number'];
 $test = file_get_contents($allTests[$number]);
 $test = json_decode($test, true);
 
+
 // Если была нажата кнопка проверки теста, то проверить и вывести результат
 if (isset($_POST['check-test'])) {
     function checkTest($testFile) {
@@ -25,17 +26,12 @@ if (isset($_POST['check-test'])) {
         $questions = 0;
         foreach ($testFile as $key => $item) {
             $questions++;
-            // Здесь идет определение названия класса для блока с вопросом и ответом, чтобы выводить красный/зеленый фон для удобства
-            // А также прибавляется 1 к переменной $i, если ответ правильный
-            if ($item['correct_answer'] === $_POST['answer' . $key]) {
+                if ($item['correct_answer'] === $_POST['answer' . $key]) {
                 $i++;
-                $infoStyle = 'correct';
             } else {
-                $infoStyle = 'incorrect';
             }
 
-            // Вывод блока с вопросом и ответом
-            echo "<div class=\"$infoStyle\">";
+            echo "<div>";
             echo 'Вопрос: ' . $item['question'] . '<br>';
             echo 'Ваш ответ: ' . $item['answers'][$_POST['answer' . $key]] . '<br>';
             echo 'Правильный ответ: ' . $item['answers'][$item['correct_answer']] . '<br>';
@@ -65,7 +61,16 @@ if (isset($_POST['check-test'])) {
     <?php if (isset($_GET['number']) && !isset($_POST['check-test'])): ?>
         <form method="POST">
             <h1><?php echo basename($allTests[$number]); ?></h1>
-            <?php foreach($test as $key => $item):  ?>
+           
+            <?php foreach($test as $key => $item):
+             if (!array_key_exists('question',$item)&&!array_key_exists('answers',$item)){
+                 header ('Location: index.php');  // перенаправление на нужную страницу
+                 exit();    // прерываем работу скрипта, чтобы забыл о прошлом
+                       
+              }       
+                         
+              ?>
+            
             <fieldset>
                 <legend><?php echo $item['question'] ?></legend>
                 <div></div>
