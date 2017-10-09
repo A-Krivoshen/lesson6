@@ -13,14 +13,12 @@ $test = file_get_contents($allTests[$number]);
 $test = json_decode($test, true);
 
 
-// Если была нажата кнопка проверки теста, то проверить и вывести результат
-if (isset($_POST['check-test'])) {
+
     function checkTest($testFile) {
         foreach ($testFile as $key => $item) {
             if (!isset($_POST['answer' . $key])) {
                 echo 'Должны быть решены все задания!';
                 exit;
-            }
         }
         $i = 0;
         $questions = 0;
